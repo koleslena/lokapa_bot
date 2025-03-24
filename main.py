@@ -60,7 +60,7 @@ def process_password_step(message):
     if check_password(chat_id):
         passwords[chat_id] = ''
         msg = bot.reply_to(message, f"""\
-        Введите новый url \
+        Введите новую сслыку \
         """)
         bot.edit_message_reply_markup(chat_id=message.chat.id, message_id=message.id, reply_markup=InlineKeyboardMarkup())
         bot.register_next_step_handler(msg, process_url)
@@ -195,7 +195,7 @@ def process_ask_question(message):
         question = f'Напишите {ch.sivaname}е имя Шивы на деванагари, iast или hk'
         
     msg = bot.send_message(message.from_user.id, f"""\
-        \n\nЧтобы получить сслыку ответьте на вопрос. \
+        \n\nЧтобы получить ссылку ответьте на вопрос. \
         \n\n{question} \
         """, reply_markup=markup)
 
