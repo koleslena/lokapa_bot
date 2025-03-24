@@ -60,7 +60,7 @@ def process_password_step(message):
     if check_password(chat_id):
         passwords[chat_id] = ''
         msg = bot.reply_to(message, f"""\
-        Введите новую сслыку \
+        Введите новую ссылку \
         """)
         bot.edit_message_reply_markup(chat_id=message.chat.id, message_id=message.id, reply_markup=InlineKeyboardMarkup())
         bot.register_next_step_handler(msg, process_url)
