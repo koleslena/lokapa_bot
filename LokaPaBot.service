@@ -1,0 +1,15 @@
+[Unit]
+Description=Lokapa bot
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStart=/home/bots/lokapa_bot/venv/bin/python main.py
+ExecReload=/home/bots/lokapa_bot/venv/bin/python main.py
+WorkingDirectory=/home/bots/lokapa_bot/
+KillMode=process
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

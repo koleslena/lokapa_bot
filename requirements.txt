@@ -1,0 +1,3 @@
+pyTelegramBotAPI
+indic_transliteration
+telebot
