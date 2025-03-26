@@ -28,6 +28,9 @@ GET_URL = "Получить ссылку"
 ch_dict = {}
 passwords = {}
 
+def clean_text(text):
+    return text.lstrip().rstrip().replace('\n', '') if text else ""
+
 def check_answer(ans, ch):
     if ch.question_type == SIVA_NAME:
         return check_siva_name(ans, ch.sivaname)
@@ -74,7 +77,7 @@ def process_password_step(message):
 def process_url(message):
     if len(message.text) > 0:
         chat_id = message.chat.id
-        ch = Challenge(message.text)
+        ch = Challenge(clean_text(message.text))
         ch_dict[chat_id] = ch
         markup = InlineKeyboardMarkup()
         markup.row_width = 1
@@ -92,7 +95,7 @@ def process_url(message):
 def process_question_text(message):
     if len(message.text) > 0:
         chat_id = message.chat.id
-        ch_dict[chat_id].question = message.text
+        ch_dict[chat_id].question = clean_text(message.text)
 
         if ch_dict[chat_id].question_type == QUESTION:
             msg = bot.reply_to(message, f"""\
@@ -113,7 +116,7 @@ def process_question_text(message):
 def process_answers(message):
     if len(message.text) > 0:
         chat_id = message.chat.id
-        ch_dict[chat_id].answers = message.text.split(';')
+        ch_dict[chat_id].answers = [clean_text(x) for x in message.text.split(';')]
         msg = bot.reply_to(message, f"""\
             Введите верный ответ \
             """)
@@ -127,7 +130,7 @@ def process_answers(message):
 def process_right_answer(message):
     if len(message.text) > 0:
         chat_id = message.chat.id
-        ch_dict[chat_id].right_answer = message.text
+        ch_dict[chat_id].right_answer = clean_text(message.text)
         process_save(message)
     else:
         msg = bot.reply_to(message, f"""\
@@ -138,7 +141,7 @@ def process_right_answer(message):
 def process_siva_name(message):
     if len(message.text) > 0 and message.text.isdigit() and int(message.text) >= 1 and int(message.text) <= 108:
         chat_id = message.chat.id
-        ch_dict[chat_id].sivaname = int(message.text)
+        ch_dict[chat_id].sivaname = int(clean_text(message.text))
         ch_dict[chat_id].question_type = SIVA_NAME
         process_save(message)
     else:
