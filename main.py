@@ -101,7 +101,7 @@ def process_question_text(message):
             bot.register_next_step_handler(msg, process_right_answer)
         else:
             msg = bot.reply_to(message, f"""\
-            Введите ответы разделяя их знаком ; \
+            Введите ответы, разделяя их знаком ; \
             """)
             bot.register_next_step_handler(msg, process_answers)
     else:
@@ -178,6 +178,8 @@ def send_welcome(message):
     msg = bot.send_message(message.from_user.id, f"""\
         Привет, <i>{message.from_user.first_name}</i>. Я LokaPaBot. \
         \n\nЗдесь вы можете получить ссылку на занятие. \
+        \n\nЧтобы получить ссылку жмите на кнопку {GET_URL}. \
+        \n\nПомощь /help. \
         """, reply_markup=gen_main_menu())
 
 @bot.message_handler(func=lambda message: message.text == GET_URL)
@@ -206,6 +208,7 @@ def send_help(message):
         Привет, <i>{message.from_user.first_name}</i>. Я LokaPaBot. \
         \n\nЯ выдаю ссылки на занятия. \
         \n\nЗдесь вы можете получить ссылку на занятие. \
+        \n\nЖмите на кнопку {GET_URL}. \
         """, reply_markup=gen_main_menu())
 
 
@@ -230,7 +233,6 @@ def callback_query(call):
 
         else:
             answer(call.data, call.message)
-            bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.id, reply_markup=InlineKeyboardMarkup())
     except:
         msg = bot.send_message(call.from_user.id, 'Что-то пошло не так. Попробуйте еще раз.')
     
